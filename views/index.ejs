@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="/css/reveal.css" rel="stylesheet" type="text/css" />
+    <link href="/css/simple.css" rel="stylesheet" type="text/css" />
+    <script src="/js/reveal.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  </head>
+  <body>
+    <div class="reveal"> 
+      <%- include(view) %>
+    </div>
+    <script src="/js/reveal-config-<%= view %>.js"></script>
+  </body>
+</html>

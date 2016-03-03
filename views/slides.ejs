@@ -1,0 +1,9 @@
+<div id="slides" class="slides">
+
+  <% for (var i = 1; i <= slideCount; i++) { %>
+  <section id="slide-<%= i %>" class="slide">
+    <%- include('./partials/slides/slide' + i + '.html') %>
+  </section>
+  <% } %>
+
+</div>
