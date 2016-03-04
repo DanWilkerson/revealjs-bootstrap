@@ -1,4 +1,10 @@
 {
+  "name": "Reveal.js Bootstrap",
+  "version": "1.0.0",
+  "description": "A basic Reveal.js presentation setup with support for printing slides to PDF and syncing attendee views with the presenter",
+  "main": "app.js",
+  "author": "notdanwilkerson@gmail.com",
+  "license": "ISC",
   "dependencies": {
     "basic-auth": "^1.0.3",
     "ejs": "^2.4.1",
