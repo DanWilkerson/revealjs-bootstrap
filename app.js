@@ -1,20 +1,26 @@
 var express = require('express');
-var http = require('http');
-// var app = express();
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
+var basicAuth = require('basic-auth');
 var fs = require('fs');
-var slideCount = fs.readdirSync(__dirname + '/views/partials/slides').length;
+var currentSlide = 0;
+
+/* Configs */
 var port = 3000;
-var io = require('socket.io');
-var app = express()
-  , server = require('http').createServer(app)
-  , io = io.listen(server);
+var presenterUsername = 'presenter';
+var presenterPassword = 'notasecret';
+/* End Configs */
+
 app.set('view engine', 'ejs');
 
 app.use('/js', express.static(__dirname + '/assets/js'));
 app.use('/css', express.static(__dirname + '/assets/css'));
+app.use('/img', express.static(__dirname + '/assets/img'));
 
 app.get('/', function(req, res) {
 
+  var slideCount = fs.readdirSync(__dirname + '/views/partials/slides').length;
 
   res.render('index', {
     view: 'attendee',
@@ -23,7 +29,9 @@ app.get('/', function(req, res) {
 
 });
 
-app.get('/presenter', function(req, res) {
+app.get('/presenter', auth, function(req, res) {
+
+  var slideCount = fs.readdirSync(__dirname + '/views/partials/slides').length;
 
   res.render('index', {
     view: 'presenter',
@@ -32,7 +40,6 @@ app.get('/presenter', function(req, res) {
 
 });
 
-var currentSlide = 0;
 io.on('connection', function(socket) {
 
   socket.emit('slidechanged', {
@@ -59,7 +66,28 @@ io.on('connection', function(socket) {
 server.listen(port, function(err) {
 
   if(err) console.log(err);
-
   console.log('Listening on port ' + port);
 
 });
+
+// Simple authentication to prevent hijacking
+function auth(req, res, next) {
+
+  var user = basicAuth(req);
+
+  if (!user || !user.name || !user.pass) {
+    return unauthorized(res);
+  }
+
+  if (user.name === presenterUsername && user.pass === presenterPassword) {
+    return next();
+  } else {
+    return unauthorized(res);
+  }
+
+  function unauthorized(res) {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    return res.send(401);
+  }
+
+}

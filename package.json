@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "basic-auth": "^1.0.3",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "socket.io": "^1.4.5"

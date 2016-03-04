@@ -1,14 +1,20 @@
-//(function() {
+(function() {
+
+  var port = window.location.port ? ':' + window.location.port : '/';
+  var socket = io.connect(port);
 
   Reveal.initialize({
-
+    dependencies: [
+      { src: '/js/highlight.pack.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+    ],
+    controls: false
   });
 
-  var socket = io.connect(':3000');
+
   Reveal.addEventListener('slidechanged', function(evt) {
 
     socket.emit('slidechanged', evt);
 
   });
 
-//})();
+})();
