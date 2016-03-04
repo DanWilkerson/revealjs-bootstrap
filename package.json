@@ -1,5 +1,5 @@
 {
-  "name": "Reveal.js Bootstrap",
+  "name": "revealjs-bootstrap",
   "version": "1.0.0",
   "description": "A basic Reveal.js presentation setup with support for printing slides to PDF and syncing attendee views with the presenter",
   "main": "app.js",
