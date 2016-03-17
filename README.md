@@ -21,10 +21,12 @@ To edit these settings, modify the presenterUsername and presenterPassword varia
 
 ## Adding slides
 
-To add slides, create files named slideN.html, where N is an integer that corresponds to the order the slides will appear in.
+To add slides, create files named slideN.html in the /views/partials/slides directory, where N is an integer that corresponds to the order the slides will appear in.
 
     <h3>This is an example slide</h3>
     <p>The html is piped into a <section> element.</p>
+
+Note: padding zeros (e.g. 001) are NOT required and will not work.
 
 ## Extending Reveal
 
