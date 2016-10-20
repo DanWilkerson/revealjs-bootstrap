@@ -20,7 +20,13 @@ app.use('/img', express.static(__dirname + '/assets/img'));
 
 app.get('/', function(req, res) {
 
-  var slideCount = fs.readdirSync(__dirname + '/views/partials/slides').length;
+  var slideCount = fs.readdirSync(__dirname + '/views/partials/slides')
+  .filter(function(file) {
+
+    return file.match(/^slide\d+\.html/i);
+
+  }).length;
+
 
   res.render('index', {
     view: 'attendee',
@@ -31,7 +37,12 @@ app.get('/', function(req, res) {
 
 app.get('/presenter', auth, function(req, res) {
 
-  var slideCount = fs.readdirSync(__dirname + '/views/partials/slides').length;
+  var slideCount = fs.readdirSync(__dirname + '/views/partials/slides')
+  .filter(function(file) {
+
+    return file.match(/^slide\d+\.html/i);
+
+  }).length;
 
   res.render('index', {
     view: 'presenter',
