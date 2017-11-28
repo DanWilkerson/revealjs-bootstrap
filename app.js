@@ -4,7 +4,12 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var basicAuth = require('basic-auth');
 var fs = require('fs');
-var currentSlide = 0;
+
+var slideOrder =[
+  'title',
+  'introduction'
+];
+var currentSlide = slideOrder[0];
 
 /* Configs */
 var port = 3000;
@@ -18,48 +23,29 @@ app.use('/js', express.static(__dirname + '/assets/js'));
 app.use('/css', express.static(__dirname + '/assets/css'));
 app.use('/img', express.static(__dirname + '/assets/img'));
 
-app.get('/', function(req, res) {
+app.get('/', sendPreso('attendee'));
+app.get('/presenter', auth, sendPreso('presenter'));
 
-  var slideCount = fs.readdirSync(__dirname + '/views/partials/slides')
-  .filter(function(file) {
+function sendPreso(type) {
 
-    return file.match(/^slide\d+\.html/i);
+  return function(req, res) {
+    res.render('index', {
+      view: type,
+      slideOrder: slideOrder
+    });
+  };
 
-  }).length;
-
-
-  res.render('index', {
-    view: 'attendee',
-    slideCount: slideCount
-  });
-
-});
-
-app.get('/presenter', auth, function(req, res) {
-
-  var slideCount = fs.readdirSync(__dirname + '/views/partials/slides')
-  .filter(function(file) {
-
-    return file.match(/^slide\d+\.html/i);
-
-  }).length;
-
-  res.render('index', {
-    view: 'presenter',
-    slideCount: slideCount
-  });
-
-});
+}
 
 io.on('connection', function(socket) {
 
   socket.emit('slidechanged', {
-    indexh: currentSlide
+    indexh: slideOrder.indexOf(currentSlide)
   });
 
   socket.on('slidechanged', function(evt) {
 
-    currentSlide = evt.indexh;
+    currentSlide = slideOrder[evt.indexh];
     io.emit('slidechanged', evt);
 
   });
@@ -67,7 +53,7 @@ io.on('connection', function(socket) {
   setInterval(function() {
 
     socket.emit('slidechanged', {
-      indexh: currentSlide
+      indexh: slideOrder.indexOf(currentSlide)
     });
 
   }, 1000);
