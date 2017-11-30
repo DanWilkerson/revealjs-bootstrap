@@ -7,9 +7,29 @@ var fs = require('fs');
 
 var slideOrder =[
   'title',
-  'introduction'
+  'introduction',
+  'the-universe',
+  'new-slide'
 ];
 var currentSlide = slideOrder[0];
+
+slideOrder.forEach(function(filename) {
+
+  if (!filename) return;
+
+  var path = __dirname + '/views/partials/slides/' + filename + '.html';
+
+  try {
+
+    fs.readFileSync(path)
+
+  } catch (squelch) {
+
+    fs.writeFileSync(path, '<h3>Title</h3>\n<p>Body</p>');
+
+  }
+
+});
 
 /* Configs */
 var port = 3000;
