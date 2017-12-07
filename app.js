@@ -8,8 +8,6 @@ var fs = require('fs');
 var slideOrder =[
   'title',
   'introduction',
-  'the-universe',
-  'new-slide'
 ];
 var currentSlide = slideOrder[0];
 
@@ -25,7 +23,7 @@ slideOrder.forEach(function(filename) {
 
   } catch (squelch) {
 
-    fs.writeFileSync(path, '<h3>Title</h3>\n<p>Body</p>');
+    fs.writeFileSync(path, '<h3>' + formatTitle(filename) + '</h3>\n<p>Body</p>');
 
   }
 
