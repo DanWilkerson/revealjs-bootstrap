@@ -16,7 +16,7 @@ slideOrder.forEach(function(filename) {
 
   if (!filename) return;
 
-  var path = __dirname + '/views/partials/slides/' + filename + '';
+  var path = __dirname + '/views/partials/slides/' + filename + '.html';
 
   try {
 
