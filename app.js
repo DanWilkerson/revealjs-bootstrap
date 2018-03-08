@@ -88,6 +88,8 @@ server.listen(port, function(err) {
 // Simple authentication to prevent hijacking
 function auth(req, res, next) {
 
+  if (process.env.NODE_ENV === 'development') return next();
+
   var user = basicAuth(req);
 
   if (!user || !user.name || !user.pass) {

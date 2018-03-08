@@ -9,6 +9,11 @@
     "basic-auth": "^1.0.3",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
+    "nodemon": "^1.17.1",
     "socket.io": "^1.4.5"
+  },
+  "scripts": {
+    "start": "node app",
+    "dev": "NODE_ENV=development npx nodemon app"
   }
 }
