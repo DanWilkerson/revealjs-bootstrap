@@ -6,20 +6,21 @@ var basicAuth = require('basic-auth');
 var fs = require('fs');
 
 var slideOrder =[
-  'title',
-  'introduction',
+  "title",
+  "introduction"
 ];
+
 var currentSlide = slideOrder[0];
 
 slideOrder.forEach(function(filename) {
 
   if (!filename) return;
 
-  var path = __dirname + '/views/partials/slides/' + filename + '.html';
+  var path = __dirname + '/views/partials/slides/' + filename + '';
 
   try {
 
-    fs.readFileSync(path)
+    fs.readFileSync(path);
 
   } catch (squelch) {
 
@@ -106,5 +107,31 @@ function auth(req, res, next) {
     res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
     return res.send(401);
   }
+
+}
+
+
+function formatTitle(title) {
+
+  return capitalize(underscoresAndDashesToSpaces(title));
+
+}
+
+function underscoresAndDashesToSpaces(str) {
+
+  return str.replace(/_|-/g, ' ');
+
+}
+
+function capitalize(str) {
+
+  return str.split(' ').map(function(word) {
+
+    var letters = word.split('');
+    letters[0] = (letters[0] + '').toUpperCase()
+
+    return letters.join('');
+
+  }).join(' ');
 
 }
